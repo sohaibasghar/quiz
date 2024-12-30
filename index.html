@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Game Experiment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Welcome/Consent Page -->
+    <div id="welcomePage" class="container">
+        <h1>Welcome to the Trust Game Experiment</h1>
+        <div class="consent-form">
+            <h2>Research Participant Consent Form</h2>
+            <p>Before participating in this study, please read and understand the following:</p>
+            <ul>
+                <li>This study examines decision-making in economic games</li>
+                <li>Your participation will involve providing demographic information</li>
+                <li>You will participate in multiple rounds of a trust game</li>
+                <li>All responses will be kept anonymous and confidential</li>
+                <li>The study will take approximately 30-45 minutes</li>
+                <li>You may withdraw at any time without penalty</li>
+            </ul>
+            <div class="button-group">
+                <button id="consentButton" onclick="consent(true)">I Agree to Participate</button>
+                <button id="disagreeButton" onclick="consent(false)">I Do Not Consent</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demographic Survey -->
+    <div id="survey" class="container" style="display: none;">
+        <h1>Demographic Information</h1>
+        <p class="survey-intro">Please answer the following questions about yourself. All information will remain confidential.</p>
+
+        <!-- Question 1 - Age -->
+        <div id="question1" class="question">
+            <label for="age">What is your age?</label>
+            <input type="number" id="age" name="age" min="18" max="120" step="1" placeholder="Enter your age" required>
+            <button onclick="nextQuestion(1)">Next</button>
+        </div>
+
+        <!-- Question 2 - Gender -->
+        <div id="question2" class="question" style="display: none;">
+            <label for="gender">What is your gender?</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select your gender...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-binary</option>
+                <option value="other">Other</option>
+                <option value="prefer-not">Prefer not to say</option>
+            </select>
+            <button onclick="nextQuestion(2)">Next</button>
+        </div>
+
+        <!-- Question 3 - Education -->
+        <div id="question3" class="question" style="display: none;">
+            <label for="education">What is your highest level of education?</label>
+            <select id="education" name="education" required>
+                <option value="">Select education level...</option>
+                <option value="no-formal">No Formal Education</option>
+                <option value="primary">Primary Education</option>
+                <option value="some-highschool">Some High School</option>
+                <option value="highschool">High School Graduate</option>
+                <option value="some-college">Some College</option>
+                <option value="bachelors">Bachelor's Degree</option>
+                <option value="masters">Master's Degree</option>
+                <option value="doctorate">Doctorate</option>
+                <option value="trade">Trade School</option>
+                <option value="other">Other</option>
+            </select>
+            <button onclick="nextQuestion(3)">Next</button>
+        </div>
+
+        <!-- Question 4 - Ethnicity -->
+        <div id="question4" class="question" style="display: none;">
+            <label for="ethnicity">What is your ethnicity?</label>
+            <input type="text" id="ethnicity" name="ethnicity" placeholder="Enter your ethnicity" required>
+            <p class="description">e.g., Asian, Hispanic, Caucasian, African American, etc.</p>
+            <button onclick="nextQuestion(4)">Next</button>
+        </div>
+
+        <!-- Question 5 - Nationality -->
+        <div id="question5" class="question" style="display: none;">
+            <label for="nationality">What is your nationality?</label>
+            <input type="text" id="nationality" name="nationality" placeholder="Enter your nationality" required>
+            <p class="description">Please enter the country you identify as a citizen of.</p>
+            <button onclick="nextQuestion(5)">Next</button>
+        </div>
+
+        <!-- Question 6 - Important Issue -->
+        <div id="question6" class="question" style="display: none;">
+            <label for="importantIssue">What issue is the most important to you?</label>
+            <select id="importantIssue" name="importantIssue" required>
+                <option value="">Select an issue...</option>
+                <option value="Inflation">Inflation</option>
+                <option value="Climate Change">Climate Change</option>
+                <option value="Immigration">Immigration</option>
+            </select>
+            <p class="description">Please select the issue you consider most important facing the country today.</p>
+            <button onclick="nextQuestion(6)">Next</button>
+        </div>
+
+        <!-- Question 7 - Religion -->
+        <div id="question7" class="question" style="display: none;">
+            <label for="religion">What is your religious affiliation?</label>
+            <input type="text" id="religion" name="religion" placeholder="Enter your religion" required>
+            <p class="description">Enter 'None' if not religious or 'Prefer not to say' if you'd rather not disclose.</p>
+            <button onclick="nextQuestion(7)">Next</button>
+        </div>
+
+        <!-- Question 8 - Years in Country -->
+        <div id="question8" class="question" style="display: none;">
+            <label for="yearsInCountry">How many years have you lived in your current country?</label>
+            <input type="number" id="yearsInCountry" name="yearsInCountry" min="0" max="120" step="1" placeholder="Enter number of years" required>
+            <button onclick="nextQuestion(8)">Next</button>
+        </div>
+    </div>
+
+    <!-- Game Instructions Page -->
+    <div id="gameInstructionsPage" class="container" style="display: none;">
+        <h2>Trust Game Instructions</h2>
+        <div class="instructions-content">
+            <h3>How the Game Works:</h3>
+            <ul>
+                <li>In each round, you will receive $10</li>
+                <li>You can choose to send any amount between $0 and $10</li>
+                <li>The amount you send will be doubled</li>
+                <li>The other player will then return a portion of this doubled amount</li>
+            </ul>
+            <p>There will be multiple phases of this game:</p>
+            <ol>
+                <li>Nationality Phase (2 parts)</li>
+                <li>Religion Phase (2 parts)</li>
+                <li>Culture War Phase (2 parts)</li>
+            </ol>
+            <p>Each part will consist of 9 rounds. Your decisions will affect your potential earnings.</p>
+            <button onclick="showScenario()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Scenario Pages -->
+    <div id="scenarioPage" class="container" style="display: none;">
+        <h2 id="scenarioTitle">Trust Game Scenario</h2>
+        <div class="scenario-content">
+            <p id="scenarioDescription"></p>
+            <button onclick="startTrustGame()">Begin Trust Game</button>
+        </div>
+    </div>
+
+    <!-- Trust Game Interface -->
+    <div id="trustGame" class="game-container" style="display: none;">
+        <h2>Trust Game - Round <span id="roundNumber">1</span>/9</h2>
+        <div class="game-info">
+            <p>You have been given $10 for this round.</p>
+            <p>Any amount you send will be doubled before reaching the other player.</p>
+            <div class="timer-display">
+                <p>Time elapsed: <span id="timeElapsed">0.0</span> seconds</p>
+            </div>
+            <div class="condition-display">
+                <p>Return Rate Condition: <span id="returnRateDisplay"></span></p>
+            </div>
+        </div>
+        <div class="game-input">
+            <label for="trustorAmount">How much would you like to send? ($0-$10)</label>
+            <input type="number" id="trustorAmount" min="0" max="10" step="0.01" placeholder="Enter amount (0-10)" required>
+            <button onclick="sendMoney()">Send Money</button>
+        </div>
+    </div>
+
+    <!-- Trustee Return Display -->
+    <div id="trusteeReturn" class="game-container" style="display: none;">
+        <h2>Round Results</h2>
+        <div class="return-info">
+            <p>The other player has returned: $<span id="returnAmount"></span></p>
+            <button onclick="nextTrial()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Results Page -->
+    <div id="resultsPage" class="results-container" style="display: none;">
+        <h1>Phase Complete</h1>
+        <div class="results-summary">
+            <h2 id="currentPhaseTitle"></h2>
+            <div class="phase-stats">
+                <p>Total amount sent: $<span id="totalSent">0.00</span></p>
+                <p>Total amount received: $<span id="totalReceived">0.00</span></p>
+                <p>Average response time: <span id="avgDecisionTime">0.0</span> seconds</p>
+                <p>Return rate condition: <span id="resultReturnRate"></span></p>
+            </div>
+            <p>Thank you for completing this phase.</p>
+        </div>
+        <button id="phaseCompleteButton">Continue to Next Phase</button>
+    </div>
+
+    <!-- Final Results Page -->
+    <div id="finalResults" class="container" style="display: none;">
+        <h1>Final Results</h1>
+        <div class="results-summary">
+          <h2>Nationality Phase</h2>
+          <div class="phase-results">
+            <h3>Round 1: <span id="nat1-condition"></span></h3>
+            <p>Money Sent: $<span id="nat1-sent"></span></p>
+            <p>Money Received: $<span id="nat1-received"></span></p>
+            <p>Average Time: <span id="nat1-time"></span> seconds</p>
+      
+            <h3>Round 2: <span id="nat2-condition"></span></h3>
+            <p>Money Sent: $<span id="nat2-sent"></span></p>
+            <p>Money Received: $<span id="nat2-received"></span></p>
+            <p>Average Time: <span id="nat2-time"></span> seconds</p>
+          </div>
+      
+          <h2>Religion Phase</h2>
+          <div class="phase-results">
+            <h3>Round 1: <span id="rel1-condition"></span></h3>
+            <p>Money Sent: $<span id="rel1-sent"></span></p>
+            <p>Money Received: $<span id="rel1-received"></span></p>
+            <p>Average Time: <span id="rel1-time"></span> seconds</p>
+      
+            <h3>Round 2: <span id="rel2-condition"></span></h3>
+            <p>Money Sent: $<span id="rel2-sent"></span></p>
+            <p>Money Received: $<span id="rel2-received"></span></p>
+            <p>Average Time: <span id="rel2-time"></span> seconds</p>
+          </div>
+      
+          <h2>Culture War Phase</h2>
+          <div class="phase-results">
+            <h3>Round 1: <span id="cw1-condition"></span></h3>
+            <p>Money Sent: $<span id="cw1-sent"></span></p>
+            <p>Money Received: $<span id="cw1-received"></span></p>
+            <p>Average Time: <span id="cw1-time"></span> seconds</p>
+      
+            <h3>Round 2: <span id="cw2-condition"></span></h3>
+            <p>Money Sent: $<span id="cw2-sent"></span></p>
+            <p>Money Received: $<span id="cw2-received"></span></p>
+            <p>Average Time: <span id="cw2-time"></span> seconds</p>
+          </div>
+        </div>
+        <button onclick="window.close()">Close Window</button>
+      </div>
+      
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <p>Processing...</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Error Message Overlay -->
+    <div id="errorOverlay" class="error-overlay" style="display: none;">
+        <div class="error-content">
+            <h3>Error</h3>
+            <p id="errorMessage"></p>
+            <button onclick="closeErrorMessage()">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
