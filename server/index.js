@@ -37,6 +37,10 @@ db.serialize(() => {
   )`);
 });
 
+app.get('/health', (req, res) => {
+  res.send('Hello World!');
+})
+
 // Endpoint to insert a new user
 app.post('/users', (req, res) => {
   const { age, gender, education, ethnicity, nationality, issue, religious_affiliation, lived_year } = req.body;
